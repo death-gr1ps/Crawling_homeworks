@@ -6,7 +6,18 @@
 import scrapy
 
 
-class Hw2Item(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class BookItem(scrapy.Item):
+    """Dataclass containes information about book"""
+    title            = scrapy.Field()
+    author           = scrapy.Field()
+    description      = scrapy.Field()
+    price_amount     = scrapy.Field()
+    price_currency   = scrapy.Field()
+    rating_value     = scrapy.Field()
+    rating_count     = scrapy.Field()
+    publication_year = scrapy.Field()
+    isbn             = scrapy.Field()
+    pages_cnt        = scrapy.Field()
+    publisher        = scrapy.Field()
+    book_cover       = scrapy.Field()
+    source_url       = scrapy.Field()

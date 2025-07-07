@@ -1,4 +1,4 @@
-# Scrapy settings for HW2 project
+# Scrapy settings for homework_2 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = "HW2.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "HW2 (+http://www.yourdomain.com)"
+#USER_AGENT = "homework_2 (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "HW2.middlewares.Hw2SpiderMiddleware": 543,
+#    "homework_2.middlewares.Homework2SpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "HW2.middlewares.Hw2DownloaderMiddleware": 543,
+#    "homework_2.middlewares.Homework2DownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "HW2.pipelines.Hw2Pipeline": 300,
+#    "homework_2.pipelines.Homework2Pipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -90,3 +90,10 @@ ROBOTSTXT_OBEY = True
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+ITEM_PIPELINES = {
+    'HW2.pipelines.MongoPipeline': 300
+}
+
+MONGO_URI = 'mongodb://localhost:27017'
+MONGO_DATABASE = 'scrapy_data'

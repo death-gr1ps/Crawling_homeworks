@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo_container
+    ports:
+      - "27017:27017"  # Change 27017 to your desired port if needed
+    volumes:
+      - mongo_data:/data/db  # Persist data
+
+volumes:
+  mongo_data:
