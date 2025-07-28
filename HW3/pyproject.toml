@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "my-scrapy-playwright-project"
+version = "0.1.0"
+description = "A Scrapy project with Playwright integration"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+scrapy = "*"                 # You can loosen this, e.g. ">=2.7"
+playwright = "*"            # Match whatever Playwright version you prefer
+scrapy-playwright = "*"    # Integration plugin
+pymongo = "*"
+fastapi = {extras = ["standard"], version = "^0.116.1"}
+
+# Optional: if you need additional middleware, parsers, etc.
+# e.g. httpx, pandas, etc.
+# httpx = "*"
+# pandas = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"                 # for testing
+
+[build-system]
+requires = ["poetry-core>=1.4.0"]
+build-backend = "poetry.core.masonry.api"
