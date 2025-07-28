@@ -1,7 +1,11 @@
 from ..items import MkItem
 import scrapy
+import logging
+
 from scrapy_playwright.page import PageMethod
 from playwright._impl._page import Page
+
+DELAY = 5000
 
 async def wait_page_load(page: Page):
     await page.wait_for_timeout(7000)
@@ -19,24 +23,29 @@ class MoscowKomsomolSpider(scrapy.Spider):
         },
     }
 
-    cond_dict = {"playwright": True, "playwright_page_methods": PageMethod(wait_page_load)}
+    cond_dict = {"playwright": True, 'playwright_include_page': True,
+                 "playwright_page_methods": [PageMethod('wait_for_timeout', DELAY)]}
 
 
     def start_requests(self):
         """Start by fetching the sitemap."""
         yield scrapy.Request(url=self.start_urls, callback=self.parse_sitemap, meta=self.cond_dict)
 
-    def parse_sitemap(self, response):
+    async def parse_sitemap(self, response):
+        page = response.meta["playwright_page"]
+        await page.close()
         """Parse the sitemap to get brand URLs."""
         # Extracting all brand URLs from the sitemap
         news_urls = response.xpath("//url/loc/text()").getall()
 
         # Yielding requests for each brand URL
         for url in news_urls:
-            return scrapy.Request(url=url, callback=self.parse)
-
+            yield scrapy.Request(url=url, callback=self.parse, meta= self.cond_dict)
  
     async def parse(self, response):
+        page = response.meta["playwright_page"]
+        await page.close()
+
         title                = response.xpath("//h1/text()").get()
         description          = response.xpath('//meta[@name="description"]/@content').get()
         article_text         = response.xpath("///div[@class='article__body']/p/text()").getall()
@@ -47,7 +56,7 @@ class MoscowKomsomolSpider(scrapy.Spider):
 
         if self.valid_field(title) and self.valid_field(description) and self.valid_field(article_text) and self.valid_field(publication_datetime) and\
             self.valid_field(keywords) and self.valid_field(authors) and self.valid_field(response.url):
-            return MkItem(
+            yield MkItem(
                 title                = self.to_str(title),
                 description          = self.to_str(description),
                 article_text         = self.to_str(article_text),
