@@ -1,16 +1,8 @@
 from ..items import MkItem
 import scrapy
-import logging
-
 from scrapy_playwright.page import PageMethod
-from playwright._impl._page import Page
 
 DELAY = 5000
-
-async def wait_page_load(page: Page):
-    await page.wait_for_timeout(7000)
-    return page.url
-
 
 class MoscowKomsomolSpider(scrapy.Spider):
     name = "moscow_komsomol"
@@ -40,7 +32,7 @@ class MoscowKomsomolSpider(scrapy.Spider):
 
         # Yielding requests for each brand URL
         for url in news_urls:
-            yield scrapy.Request(url=url, callback=self.parse, meta= self.cond_dict)
+            yield scrapy.Request(url=url, callback=self.parse, meta=self.cond_dict)
  
     async def parse(self, response):
         page = response.meta["playwright_page"]
